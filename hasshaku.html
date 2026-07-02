@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>八尺様 アニメーション ビューア ── 八咫商店街</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;background:#07070a;color:#ece7dd;font-family:-apple-system,'Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif;overflow:hidden}
+  #app{position:fixed;inset:0}
+  #hud{position:fixed;left:18px;top:16px;z-index:10;max-width:340px}
+  #hud .ttl{font-family:'Shippori Mincho B1',serif;font-size:22px;letter-spacing:.04em;color:#e7e1d6;text-shadow:0 2px 8px #000}
+  #hud .sub{font-size:13px;color:#9b9488;margin-top:4px;line-height:1.6}
+  #panel{position:fixed;left:18px;bottom:18px;z-index:10;background:#15131988;backdrop-filter:blur(6px);border:1px solid #2a2630;border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:10px;min-width:240px}
+  .row{display:flex;align-items:center;gap:10px}
+  button{background:#2a1f22;color:#e0897f;border:1px solid #5a3331;border-radius:8px;padding:7px 14px;font-size:14px;cursor:pointer;font-family:inherit}
+  button:hover{background:#3a282b}
+  button.on{background:#c0453b;color:#fff;border-color:#c0453b}
+  label{font-size:12px;color:#9b9488;min-width:54px}
+  input[type=range]{flex:1;accent-color:#c0453b}
+  .val{font-size:12px;color:#cfc7b8;min-width:34px;text-align:right}
+  #loading{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:20;background:#07070a;color:#8f897e;font-size:15px;letter-spacing:.1em}
+  #err{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:30;background:#07070a;color:#e0897f;font-size:15px;text-align:center;padding:30px}
+  .hint{position:fixed;right:16px;bottom:16px;z-index:10;font-size:12px;color:#6b655c;letter-spacing:.05em}
+  body.embed #hud,body.embed #panel,body.embed .hint{display:none}
+  body.embed #loading{font-size:13px;letter-spacing:.16em}
+  html.clear,body.clear{background:transparent!important}
+  body.clear #loading{background:transparent;color:#cfc7b8;text-shadow:0 1px 6px #000}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="pwgate" style="position:fixed;inset:0;z-index:99999;background:#0c0b0d;display:flex;align-items:center;justify-content:center;flex-direction:column;font-family:'Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif;color:#ece7dd">
+  <div style="font-family:'Shippori Mincho B1',serif;font-size:22px;letter-spacing:.1em;margin-bottom:6px">八咫商店街 -神隠しの夜-</div>
+  <div style="color:#8f897e;font-size:13px;margin-bottom:18px">関係者限定 ・ パスワードを入力してください</div>
+  <input id="pwin" type="password" placeholder="password" autocomplete="off" style="background:#15131a;border:1px solid #3a3340;color:#ece7dd;border-radius:8px;padding:10px 14px;font-size:16px;width:220px;text-align:center;outline:none">
+  <button id="pwbtn" style="margin-top:12px;background:#c0453b;color:#fff;border:0;border-radius:8px;padding:9px 22px;font-size:15px;cursor:pointer">入る</button>
+  <div id="pwerr" style="color:#e0897f;font-size:13px;margin-top:10px;height:16px"></div>
+</div>
+<script>
+(function(){
+  var KEY='yata-gate-ok', g=document.getElementById('pwgate');
+  var inFrame=false; try{inFrame=window.top!==window.self;}catch(e){inFrame=true;}
+  if(inFrame || sessionStorage.getItem(KEY)==='1'){ if(g) g.remove(); return; }
+  function unlock(){
+    var v=(document.getElementById('pwin').value||'').trim().toLowerCase();
+    if(v==='vr2026'){ try{sessionStorage.setItem(KEY,'1');}catch(e){} g.remove(); }
+    else { document.getElementById('pwerr').textContent='パスワードが違います'; }
+  }
+  document.getElementById('pwbtn').addEventListener('click',unlock);
+  document.getElementById('pwin').addEventListener('keydown',function(e){ if(e.key==='Enter') unlock(); });
+  document.getElementById('pwin').focus();
+})();
+</script>
+
+<div id="app"></div>
+<div id="loading">八尺様を呼び出しています…</div>
+<div id="err"></div>
+<div id="hud">
+  <div class="ttl">八尺様 ─ ハッシャク</div>
+  <div class="sub">八咫商店街 -神隠しの夜-／Mixamoモーション確認用<br>ドラッグで回転・ホイールで拡大縮小</div>
+</div>
+<div id="panel">
+  <div class="row" style="flex-wrap:wrap">
+    <button id="play" class="on">⏸ 一時停止</button>
+    <button id="spin">⟳ 自動回転 OFF</button>
+    <button id="accel">⏩ 加速</button>
+  </div>
+  <div class="row">
+    <label>速度</label>
+    <input id="speed" type="range" min="0.1" max="2" step="0.1" value="0.7">
+    <span class="val" id="speedv">0.7x</span>
+  </div>
+</div>
+<div class="hint">drag: 回転 ・ wheel: ズーム ・ 右drag: 移動</div>
+
+<script type="importmap">
+{ "imports": {
+  "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+const app = document.getElementById('app');
+const params = new URLSearchParams(location.search);
+const EMBED = params.has('embed');
+const CLEAR = params.has('clear');   // 背景透過（商店街の上に重ねる用）
+// UIの表示切替は描画より先に確定（WebGLが遅い/失敗してもパネルがはみ出さない）
+if(EMBED) document.body.classList.add('embed');
+if(CLEAR){ document.documentElement.classList.add('clear'); document.body.classList.add('clear'); }
+let renderer;
+try { renderer = new THREE.WebGLRenderer({antialias:true, alpha:CLEAR}); }
+catch(e){ const l=document.getElementById('loading'); if(l) l.textContent='この環境では3D表示に対応していません'; throw e; }
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.setSize(innerWidth, innerHeight);
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+if(CLEAR) renderer.setClearColor(0x000000, 0);
+app.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+if(!CLEAR){ scene.background = new THREE.Color(0x07070a); scene.fog = new THREE.FogExp2(0x07070a, 0.045); }
+
+const camera = new THREE.PerspectiveCamera(42, innerWidth/innerHeight, 0.01, 1000);
+camera.position.set(0,1.4,5);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.08;
+
+// lights ── moody rim + key
+scene.add(new THREE.HemisphereLight(0x8090a0, 0x101015, 0.55));
+const key = new THREE.SpotLight(0xfff0e0, 28, 0, Math.PI/5, 0.6, 1.4);
+key.position.set(3,8,4); scene.add(key);
+const rim = new THREE.DirectionalLight(0xc0453b, 1.6);
+rim.position.set(-4,3,-5); scene.add(rim);
+const fill = new THREE.PointLight(0x4060a0, 6, 30); fill.position.set(0,2,-4); scene.add(fill);
+
+// ground（透過モードでは商店街の地面に立たせるので非表示）
+if(!CLEAR){
+  const ground = new THREE.Mesh(
+    new THREE.CircleGeometry(14, 48),
+    new THREE.MeshStandardMaterial({color:0x14121a, roughness:1, metalness:0})
+  );
+  ground.rotation.x = -Math.PI/2; scene.add(ground);
+}
+
+// drifting 霊気 motes
+if(!CLEAR){
+  const N=260, pos=new Float32Array(N*3);
+  for(let i=0;i<N;i++){pos[i*3]=(Math.random()-.5)*16;pos[i*3+1]=Math.random()*7;pos[i*3+2]=(Math.random()-.5)*16;}
+  const g=new THREE.BufferGeometry(); g.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  const m=new THREE.PointsMaterial({color:0x9fb0c0,size:0.05,transparent:true,opacity:0.5,depthWrite:false});
+  const pts=new THREE.Points(g,m); scene.add(pts); window.__motes=pts;
+}
+
+let mixer=null, action=null, playing=true, spin=false;
+const clock = new THREE.Clock();
+if(EMBED) spin=true;   // 埋め込みは既定で自動回転（UIクラスは冒頭で適用済み）
+if(params.get('spin')==='0') spin=false;   // タイトル合成では回さず歩かせる
+let accel=false;
+function applySpeed(){ if(mixer) mixer.timeScale = accel ? 2.6 : +speed.value; }
+
+const loader = new GLTFLoader();
+loader.load('hasshaku_anim.glb?v=2', (gltf)=>{
+  const model = gltf.scene;
+  // 実測値ベースで確実に配置（スキンメッシュのBox3は持ち上がるので使わない）
+  // GLB実寸: 足≈y0 / 身長≈1.876
+  const FIGH = 1.876;
+  model.position.set(0,0,0);
+  scene.add(model);
+
+  // fit=図に占める身長の割合（小さくしたいほど値を下げる）
+  const fit = Math.min(0.95, Math.max(0.25, parseFloat(params.get('fit')||'0.8')));
+  const cy = FIGH*0.5;
+  const dist = (FIGH/fit)/(2*Math.tan(camera.fov*Math.PI/360));
+  controls.target.set(0, cy, 0);
+  camera.position.set(0, cy, dist);
+  controls.minDistance = dist*0.3; controls.maxDistance = dist*3;
+  controls.update();
+
+  if(gltf.animations && gltf.animations.length){
+    mixer = new THREE.AnimationMixer(model);
+    action = mixer.clipAction(gltf.animations[0]);
+    action.play();
+    applySpeed();
+  }
+  document.getElementById('loading').style.display='none';
+}, undefined, (e)=>{
+  document.getElementById('loading').style.display='none';
+  const el=document.getElementById('err'); el.style.display='flex';
+  el.textContent='読み込みに失敗しました: '+(e&&e.message?e.message:e);
+});
+
+// UI
+const speed=document.getElementById('speed'), speedv=document.getElementById('speedv');
+speed.oninput=()=>{ speedv.textContent=(+speed.value).toFixed(1)+'x'; accel=false; const ab=document.getElementById('accel'); ab.textContent='⏩ 加速'; ab.classList.remove('on'); applySpeed(); };
+const playBtn=document.getElementById('play');
+playBtn.onclick=()=>{ playing=!playing; playBtn.textContent=playing?'⏸ 一時停止':'▶ 再生'; playBtn.classList.toggle('on',playing); };
+const accelBtn=document.getElementById('accel');
+accelBtn.onclick=()=>{ accel=!accel; accelBtn.textContent=accel?'⏩ 加速中':'⏩ 加速'; accelBtn.classList.toggle('on',accel); if(!playing){ playing=true; playBtn.textContent='⏸ 一時停止'; playBtn.classList.add('on'); } applySpeed(); };
+const spinBtn=document.getElementById('spin');
+spinBtn.onclick=()=>{ spin=!spin; spinBtn.textContent=spin?'⟳ 自動回転 ON':'⟳ 自動回転 OFF'; spinBtn.classList.toggle('on',spin); };
+
+addEventListener('resize',()=>{ camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth,innerHeight); });
+
+function loop(){
+  requestAnimationFrame(loop);
+  const dt=clock.getDelta();
+  if(mixer && playing) mixer.update(dt);
+  if(spin) controls.autoRotate=true, controls.autoRotateSpeed=0.8; else controls.autoRotate=false;
+  if(window.__motes) window.__motes.rotation.y += dt*0.02;
+  controls.update();
+  renderer.render(scene,camera);
+}
+loop();
+</script>
+</body>
+</html>
