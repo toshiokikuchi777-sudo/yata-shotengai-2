@@ -3,21 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>企画書｜化け札の夜（仮）── 和ホラー・プロップかくれんぼ</title>
+<title>企画書｜八尺商店街 ── 和ホラー・プロップかくれんぼ</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
   :root{--bg:#0d0b0e;--card:#16131a;--line:#2b2530;--ink:#ece7dd;--sub:#9b9488;--red:#c0453b;--gold:#c8a84a;--grn:#5fd07a}
   html,body{background:var(--bg);color:var(--ink);font-family:-apple-system,'Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif;line-height:1.75;-webkit-font-smoothing:antialiased}
   .wrap{max-width:860px;margin:0 auto;padding:0 20px 90px}
-  /* hero */
   header.hero{padding:64px 20px 40px;text-align:center;background:radial-gradient(120% 90% at 50% -10%,#1c1420 0%,var(--bg) 60%);border-bottom:1px solid var(--line)}
   .kicker{color:var(--gold);letter-spacing:.35em;font-size:12px;margin-bottom:14px}
-  h1{font-size:40px;letter-spacing:.06em;font-weight:800;text-shadow:0 3px 20px #000}
-  h1 .kari{font-size:18px;color:var(--sub);font-weight:500;letter-spacing:.1em}
-  .lead{margin:16px auto 0;max-width:620px;color:#d8d2c6;font-size:16px}
+  h1{font-size:44px;letter-spacing:.08em;font-weight:800;text-shadow:0 3px 20px #000}
+  .read{font-size:13px;color:var(--sub);letter-spacing:.25em;margin-top:8px}
+  .lead{margin:18px auto 0;max-width:620px;color:#d8d2c6;font-size:16px}
   .tags{margin-top:20px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
   .tag{font-size:12px;border:1px solid var(--line);border-radius:999px;padding:5px 12px;color:var(--sub);background:#00000030}
-  /* sections */
   section{margin-top:40px}
   h2{font-size:13px;letter-spacing:.2em;color:var(--gold);border-left:3px solid var(--red);padding-left:12px;margin-bottom:16px}
   .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px}
@@ -41,25 +39,22 @@
   th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
   th{color:var(--gold);font-weight:600}
   td.v{color:#fff;font-variant-numeric:tabular-nums;white-space:nowrap}
-  .callout{background:#1a1410;border:1px solid #4a3a1e;border-radius:12px;padding:16px 18px;color:#e6dcc6}
+  .callout{background:#1a1410;border:1px solid #4a3a1e;border-radius:12px;padding:18px 20px;color:#e6dcc6}
   .callout b{color:var(--gold)}
-  .next{background:#12190f;border:1px solid #2c4a22}
-  .next b{color:var(--grn)}
-  .steps{counter-reset:t;list-style:none}
-  .steps li{counter-increment:t;position:relative;padding:6px 0 6px 30px;color:#d3cdc2}
-  .steps li::before{content:counter(t);position:absolute;left:0;color:var(--grn);font-weight:800}
+  .star{background:#1a1220;border:1px solid #4a2f52}
+  .star h3{color:#d9a7ee}
+  .star .big{font-size:22px;letter-spacing:.15em;color:#e7c9f5;font-weight:800;margin:2px 0 10px}
   footer{margin-top:56px;padding-top:22px;border-top:1px solid var(--line);color:var(--sub);font-size:12px;text-align:center}
   a{color:var(--gold)}
-  /* gate */
   #pwgate{position:fixed;inset:0;z-index:99999;background:#0b090c;display:flex;align-items:center;justify-content:center;flex-direction:column;color:var(--ink)}
   #pwgate input{background:#15131a;border:1px solid #3a3340;color:var(--ink);border-radius:8px;padding:10px 14px;font-size:16px;width:220px;text-align:center;outline:none}
   #pwgate button{margin-top:12px;background:var(--red);color:#fff;border:0;border-radius:8px;padding:9px 22px;cursor:pointer}
-  @media(max-width:560px){h1{font-size:30px}.pillars{grid-template-columns:1fr}}
+  @media(max-width:560px){h1{font-size:32px}.pillars{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div id="pwgate">
-  <div style="font-size:19px;letter-spacing:.08em;margin-bottom:6px">化け札の夜（仮）企画書</div>
+  <div style="font-size:19px;letter-spacing:.08em;margin-bottom:6px">八尺商店街 企画書</div>
   <div style="color:#8f897e;font-size:13px;margin-bottom:16px">関係者限定 ・ パスワード</div>
   <input id="pwin" type="password" placeholder="password" autocomplete="off">
   <button id="pwbtn">入る</button>
@@ -77,7 +72,8 @@
 
 <header class="hero">
   <div class="kicker">コヤッキー ／ 和ホラー Roblox 企画</div>
-  <h1>化け札の夜<span class="kari">（仮）</span></h1>
+  <h1>八尺商店街</h1>
+  <div class="read">は っ し ゃ く し ょ う て ん が い</div>
   <div class="lead">色の物に化けて隠れ、八尺様に見つからないよう<b>全色そろえて鳥居から脱出</b>する、<br>和ホラー版・非対称かくれんぼ（プロップハント）。</div>
   <div class="tags"><span class="tag">非対称マルチ</span><span class="tag">プロップかくれんぼ</span><span class="tag">和ホラー</span><span class="tag">UGC拡張</span><span class="tag">配信映え</span></div>
 </header>
@@ -101,7 +97,7 @@
       <span class="chip"><span class="dot" style="background:#d8b32a;color:#d8b32a"></span>黄の店</span>
       <span class="chip"><span class="dot" style="background:#7b4ea3;color:#7b4ea3"></span>紫の店</span>
     </div>
-    <p>商店街には<b>色ごとにまとまった店</b>がある（赤い物だらけの店／青い店…）。<b>自分の今の色と同じ店</b>の同色の物に紛れて静止すれば本物と見分けがつかない。<b>違う色の店にいると浮いてバレる。</b><span class="muted">＝色を部屋単位でまとめるのでレベルも作りやすい。既存の5色プロップ資産をそのまま流用。</span></p>
+    <p>商店街には<b>色ごとにまとまった店</b>がある（赤い物だらけの店／青い店…）。<b>自分の今の色と同じ店</b>の同色の物に紛れて静止すれば、本物と見分けがつかない。<b>違う色の店にいると浮いてバレる。</b></p>
   </div>
 </section>
 
@@ -132,14 +128,25 @@
 </section>
 
 <section>
+  <h2>★ 面白ポイント：隠れる側も「ぽぽぽ」で煽れる</h2>
+  <div class="card star">
+    <h3>挑発ボタン「ぽぽぽ」</h3>
+    <div class="big">ぽ・ぽ・ぽ・ぽ…！</div>
+    <p>隠れてる側にも<b>「ぽぽぽ」ボタン</b>がある。押すと<b>声で八尺様を煽れる</b>。八尺様の目の前で煽って、そのまま逃げ切れたら最高にアツい＝<b>度胸試し＆配信映えの主役</b>。</p>
+    <p style="margin-top:10px"><b>リスク：</b>自分の<b>大まかな方向がバレる</b>（八尺様が寄ってくる）。<b>リターン：</b>盛り上がり・煽りポイント・観てる人が沸く。<br><span class="muted">＝八尺様の「ぽぽぽ（探す・削る）」と、隠れる側の「ぽぽぽ（煽る）」の<b>掛け合い</b>が商店街に響く名物に。</span></p>
+    <p style="margin-top:10px"><b>声はトーヤくんの声を収録。</b><span class="muted">両者の「ぽぽぽ」ともトーヤくんボイス＝ファン・視聴者に刺さる。</span></p>
+  </div>
+</section>
+
+<section>
   <h2>中核メカニクス</h2>
   <div class="card">
     <h3>① 恐怖ゲージ → 震え（駆け引きの芯）</h3>
     <p>全員に見えない<b>恐怖ゲージ</b>がある。<b>見つめられる・ぽぽぽを浴びると上がる。</b>正しく隠れてる人は上がるのが<b>遅い（粘れる）</b>／違う色・移動中は<b>速い（すぐ割れる）</b>。ゲージが満タンで<b>ぶるぶる震える → そこから被弾する</b>。<br><b class="muted">重要：震えは"元に戻せる"。視線を切って隠れ直せば恐怖が下がり震えが止まる＝「震えてる数秒でどう逃げ切るか」が中間の攻防。</b></p>
   </div>
   <div class="card">
-    <h3>② ぽぽぽ（連打OK・3発でアウト）</h3>
-    <p>八尺様の主武器。<b>連打していい</b>。ただしダメージが入るのは相手が<b>震えている隙</b>のときだけ。震えるまでは恐怖を溜める役。<b>誰も無敵ではない</b>——うまく隠れた人も、張り付かれ続ければ最後は割れる。<span class="muted">連打が「じわじわ追い詰める気持ちよさ」に。コヤッキーの「ぽ…ぽ…」が商店街に響く。</span></p>
+    <h3>② ぽぽぽ（八尺様の主武器・連打OK・3発でアウト）</h3>
+    <p>連打していい。ただしダメージが入るのは相手が<b>震えている隙</b>のときだけ。震えるまでは恐怖を溜める役。<b>誰も無敵ではない</b>——うまく隠れた人も、張り付かれ続ければ最後は割れる。</p>
   </div>
   <div class="card">
     <h3>③ お札で色替え → 全色そろえて脱出</h3>
@@ -167,38 +174,22 @@
 <section>
   <h2>UGC（増やしたい要素・段階導入）</h2>
   <div class="card">
-    <p><b>Lv1（まずここ）</b>：化けプロップの<b>柄・模様だけ投稿</b>（形は共通の規格）。画像審査だけで安全・当たり判定も壊れない。投稿者名を刻印＋コスメ販売。<br><b>Lv2以降</b>：規格テンプレ内でのメッシュ投稿→公式キュレーション採用。<span class="muted">「自由投稿→即採用」はやらない（審査・荒らし・負荷で破綻するため）。</span></p>
+    <p><b>まず</b>：化けプロップの<b>柄・模様だけ投稿</b>（形は共通の規格）。画像審査だけで安全・当たり判定も壊れない。投稿者名を刻印＋コスメ販売。<br><b>その後</b>：規格テンプレ内でのメッシュ投稿→公式キュレーション採用。<span class="muted">「自由投稿→即採用」はやらない（審査・荒らし・負荷で破綻するため）。</span></p>
   </div>
 </section>
 
 <section>
   <h2>配信映え</h2>
   <div class="card">
-    <p>①<b>1人が八尺様＝配信者が視聴者を狩る</b>（鉄板フォーマット）。②<b>震え → バレる瞬間</b>の手に汗。③八尺様が<b>「今の動いた!? 気のせい!?」</b>と確信が持てない余白＝実況が一番盛り上がる。④終盤の<b>鳥居前ダッシュ</b>。⑤変な化けプロップ（UGC）で笑い。短い試合（5〜8分）で見せ場が何度も。</p>
+    <p>①<b>1人が八尺様＝配信者が視聴者を狩る</b>（鉄板フォーマット）。②隠れる側の<b>「ぽぽぽ」煽り</b>で沸く。③<b>震え → バレる瞬間</b>の手に汗。④八尺様が<b>「今の動いた!? 気のせい!?」</b>と確信が持てない余白。⑤終盤の<b>鳥居前ダッシュ</b>。短い試合（5〜8分）で見せ場が何度も。</p>
   </div>
 </section>
 
 <section>
-  <h2>使える既存資産（＝作るのが速い）</h2>
-  <div class="card">
-    <p>✔ 和風プロップ<b>117種</b>（5色系）＋お札　／　✔ <b>迷路商店街の自動生成器</b>（大通り・裏道・鳥居・巡回点）　／　✔ <b>八尺様モデル</b>＋AI（視界・聴覚・徘徊）　／　✔ <b>ブラウザ操作プロト</b>（歩行・一人称/三人称・人間⇄八尺様切替）。<br><b class="muted">新規で作る核は「化け」「恐怖ゲージ→震え」「ぽぽぽ」の3つに集約。土台は8割そろっている。</b></p>
-  </div>
-</section>
-
-<section>
-  <h2>作り方：まず"ちびテスト"</h2>
-  <div class="callout">
-    <p>いきなり全部作らない。まず<b>一番小さい形で「面白いか」だけ</b>確かめる：</p>
-    <p style="margin-top:10px"><b>部屋1つ・色1つ・逃げる人1人・八尺様1人</b>だけで、<br><b>「見られる → 恐怖たまる → 震える → ぽぽぽ → 視線を切って隠れ直す」</b>——この1往復が楽しいかを検証。</p>
-    <p style="margin-top:10px" class="muted">面白ければ → 3色・4対1・お札・迷路生成・UGCへ拡張。面白くなければ数値でなく設計に戻る（安く済む）。※八尺様らしさの演出はコアが面白いと分かってからの味付け。</p>
-  </div>
-</section>
-
-<section>
-  <h2>初期パラメータ（検証用のたたき台）</h2>
+  <h2>数値の目安（あとで調整）</h2>
   <div class="card">
     <table>
-      <tr><th>項目</th><th>初期値</th></tr>
+      <tr><th>項目</th><th>目安</th></tr>
       <tr><td>震え発動（恐怖の閾値）</td><td class="v">100</td></tr>
       <tr><td>正しい色で見られる</td><td class="v">+8〜10 / 秒（粘れる）</td></tr>
       <tr><td>違う色で見られる</td><td class="v">+25 / 秒（約4秒で震え）</td></tr>
@@ -214,22 +205,9 @@
   </div>
 </section>
 
-<section>
-  <h2>ステータス & 次アクション</h2>
-  <div class="card next">
-    <p><b>現状</b>：コンセプト固まり済み（AI二系統でレビュー通過＝条件付きGO）。<b>次はちびテストで"面白いか"を体感検証。</b></p>
-    <ol class="steps" style="margin-top:12px">
-      <li>ブラウザで最小ループを実装（1部屋・1色・1v1／恐怖ゲージ→震え→ぽぽぽ→視線切り）</li>
-      <li>面白い → 3色・4v1・お札・迷路生成へ拡張</li>
-      <li>並行してUGC(Lv1 柄投稿)・配信映え演出を設計</li>
-    </ol>
-    <p style="margin-top:12px" class="muted">仮タイトル「化け札の夜」は要検討。八尺様の恐怖演出（覗き・異常な背丈等）はコア確定後の宿題。</p>
-  </div>
-</section>
-
 <footer>
-  化け札の夜（仮）企画書 ／ コヤッキー 和ホラー Roblox ／ 関係者限定<br>
-  作成：MASTAR DESIGN AI STUDIO
+  八尺商店街 企画書 ／ コヤッキー 和ホラー Roblox ／ 関係者限定<br>
+  作成：MASTAR DESIGN
 </footer>
 
 </div>
